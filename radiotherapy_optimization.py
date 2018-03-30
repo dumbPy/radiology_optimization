@@ -11,14 +11,14 @@ import matplotlib.pyplot as plt
 from scipy.spatial import distance as dist
 from math import exp
 #from amplpy import AMPL
-import pulp
+import pulp as pp
 
 
 radi     =  3  #Radius of the circular organ region   
 grid_sz  =  6  # Length of the grid square area (grid size)
 grid_res = 20  # 1 unit length to be devided in grid_res Number of pizels per length
 beamlets = 20  # Number of beamlets per beam. All the beamlets in a beam have same angle
-pos      =  5  # Total angular positions of the setup
+pos      =  2  # Total angular positions of the setup
 
 #All length parameters will be multiplied with grid_res from hence forth
 grid_sz *= grid_res
@@ -84,56 +84,48 @@ dose_risk -= dose_tumor_temp #Substract 4 value dosage from tumor area
 #Final Dose Requirements in One Matrix
 #dose in risk region = 4; dose in tumor = 10
 dose = dose_risk+dose_tumor
-    
-"""
-Optimization Code
-"""
 
-# =============================================================================
-# problem.eval("""
-# param theta; #A 3 dimentional theta for set T, R, N
-# param SETS = 1..3;
-# 
-# set GRID_X;
-# set GRID_Y;
-# set BEAMLETS;
-# set POS;  # Total number of beam angle positions to be used 
-# 
-# #For every positon, for every beamlet p,
-# #we calculate intensity at every pixel (x, y)
-# param D_ijp{POS, BEAMLETS, GRID_X, GRID_Y};
-# 
-# var w{POS, BEAMLETS} INTEGER >=0; #weights for each beamlet in each position
-# var D_ij{POS, GRID_X, GRID_Y};
-# 
-# #A 3 channel T, R, N set's 1-0 mapping
-# #for a channel, say R(represented by 1),
-# #X, Y = 1 if (x, y) belongs to set R
-# var MAP_TRN{3, GRID_X, GRID_Y}; 
-# 
-# #No Normal region. trn = [1, 2] for tumor and risk region
-# minimize objective : sum{trn in 1..2}theta[trn]*sum{i in 1..GRID_X, j in 1..GRID_Y} MAP_TRN[trn, i, j]*sum{p in 1..POS}D_ij[p, i, j]
-# 
-# subject to con{i in 1..GRID_X, j in 1..GRID_Y, p in 1..POS}: D_ij[p, i, j] = sum{b in 1..BEAMLETS}D_ijp[p, b, i, j]
-# 
-# """)
-# 
-# =============================================================================
 
-theta = [1, 10]
-map_trn = [map_tumor, map_risk]
-GRID_X = grid_sz*grid_res
-GRID_Y = GRID_X
-BEAMLETS = beamlets
-POS = pos
 
 #4D D_ijp [beam_position, beamlet, X, Y]
 D_ijp = []
 for beam_angle in positions:
     beam = [GET_Dijp(beam_angle, beamlet_no) for beamlet_no in range(20)]
     D_ijp.append(beam)
+D_ijp = np.asarray(D_ijp)
+   
+"""
+Optimization Code
+"""
+
+prob = pp.LpProblem("Tomotherapy", pp.LpMinimize)
+# =============================================================================
+# w = [[]*beamlets]*positions
+# for i in range(positions):
+#     for j in range(beamlets):
+# =============================================================================
+w = np.asarray([pp.LpVariable(f'w[{i}][{j}]', lowBound=0, upBound=1) 
+                for i in range(pos) for j in range(beamlets)])
+
+D_ij = np.asarray([[pp.LpVariable(f'D[{i}][{j}]') for i in range(grid_sz)]for j in range(grid_sz)])
+
+theta = [1, 10]
+map_trn = [map_tumor, map_risk]
+GRID_X = grid_sz
+GRID_Y = GRID_X
+BEAMLETS = beamlets
+POS = pos
+
+
+#Objective Function
+
+prob += np.sum(np.asarray([theta[i]*np.multiply(map_trn[i], (D_ij-dose)) for i in [0, 1]])),
+prob += sum(np.asarray([D_ijp[beam][beamlet]*w[beam][beamlet] for beam in range(pos) for beamlet in range(beamlets)])) == D_ij,
+
+
+
+
 #dose matrix (in ampl model format)
-d_ij = dose
 
 final_map = dose_risk+dose_tumor
 plt.imshow(final_map)
