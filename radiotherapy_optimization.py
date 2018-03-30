@@ -112,6 +112,7 @@ w=pp.LpVariable.dicts('weights',[(i, j) for i in range(pos)
     
 #D_ij = np.asarray([[pp.LpVariable(f'D[{i}][{j}]', lowBound=0) for i in range(grid_sz)]for j in range(grid_sz)])
 
+
 theta = [1, 10]
 map_trn = [map_tumor, map_risk]
 GRID_X = grid_sz
@@ -134,6 +135,13 @@ for i in range(grid_sz):
 
 actual_dose= np.asarray([[D_ij[(i, j)].varValue 
                         for i in range(grid_sz)] for j in range(grid_sz)])    
+
+#Objective Function
+
+prob += np.sum(np.asarray([theta[i]*np.multiply(map_trn[i], (D_ij-dose)) for i in [0, 1]])),
+prob += sum(np.asarray([D_ijp[beam][beamlet]*w[beam][beamlet] for beam in range(pos) for beamlet in range(beamlets)])) == D_ij,
+
+
 
 
 #dose matrix (in ampl model format)
