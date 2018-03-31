@@ -107,7 +107,10 @@ prob = pp.LpProblem("Tomotherapy", pp.LpMinimize)
 w = np.asarray([pp.LpVariable(f'w[{i}][{j}]', lowBound=0, upBound=1) 
                 for i in range(pos) for j in range(beamlets)])
 
-D_ij = np.asarray([[pp.LpVariable(f'D[{i}][{j}]') for i in range(grid_sz)]for j in range(grid_sz)])
+w=pp.LpVariable.dicts('weights',[(i, j) for i in range(pos)
+                        for j in range(beamlets)],0, None)
+    
+#D_ij = np.asarray([[pp.LpVariable(f'D[{i}][{j}]', lowBound=0) for i in range(grid_sz)]for j in range(grid_sz)])
 
 theta = [1, 10]
 map_trn = [map_tumor, map_risk]
@@ -116,18 +119,26 @@ GRID_Y = GRID_X
 BEAMLETS = beamlets
 POS = pos
 
+D_ij=pp.LpVariable.dicts('total intensity',[(i, j) for i in range(grid_sz)
+                                      for j in range(grid_sz)],0, None, pp.LpContinuous)
 
+y=pp.LpVariable.dicts('absolute variable',[(i, j) for i in range(grid_sz)
+                                        for j in range(grid_sz)],0, None, pp.LpContinuous)
 #Objective Function
 
-prob += np.sum(np.asarray([theta[i]*np.multiply(map_trn[i], (D_ij-dose)) for i in [0, 1]])),
-prob += sum(np.asarray([D_ijp[beam][beamlet]*w[beam][beamlet] for beam in range(pos) for beamlet in range(beamlets)])) == D_ij,
+prob += pp.lpSum(D_ij[(i, j)]-dose[i][j] for i in range(grid_sz) for j in range(grid_sz))
+for i in range(grid_sz):
+    for j in range(grid_sz):
+        prob += pp.lpSum(D_ijp[beam][beamlet][i][j]*w[(beam, beamlet)] for beam in range(pos) for beamlet in range(beamlets)) == D_ij[(i, j)]
 
 
+actual_dose= np.asarray([[D_ij[(i, j)].varValue 
+                        for i in range(grid_sz)] for j in range(grid_sz)])    
 
 
 #dose matrix (in ampl model format)
 
-final_map = dose_risk+dose_tumor
+final_map = dose_risk+dose_tumor+actual_dose
 plt.imshow(final_map)
 
 #prob = pp.LpProblem("Tomotherapy",pp.LpMinimize)
