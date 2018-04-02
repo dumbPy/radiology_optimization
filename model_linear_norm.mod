@@ -35,8 +35,9 @@ minimize objective : sum{trn in TRN, i in GRID_X, j in GRID_Y} theta[trn]*MAP_TR
 subject to con1{i in GRID_X, j in GRID_Y}: D_ij[i, j] == sum{p in POS, b in BEAMLETS} w[p, b]*D_ijp[p, b, i, j];
 subject to con2{p in POS, b in BEAMLETS}:              w[p, b] >= 0;
 #subject to con3{p in POS, b in BEAMLETS}:              w[p, b] <= 1;
+
 #Error in risk region -ve, i.e., actual dose below 4
-subject to con4{i in GRID_X, j in GRID_Y}: MAP_RISK[i, j]*error[i, j] >= 0;
+subject to con4{i in GRID_X, j in GRID_Y}: MAP_RISK[i, j]*(d_ij[i, j]-D_ij[i, j]) >= 0;
 
 #error at each pixel is actual dose - max/min dose (10 or 4 for tumor and risk resp.)
 #Linearised norm of error
