@@ -1,0 +1,612 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{tomotherapy\_with\_linearized\_norm\_error}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}13}]:} \PY{o}{\PYZpc{}}\PY{k}{autosave} 60
+\end{Verbatim}
+
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Autosaving every 60 seconds
+
+    \end{Verbatim}
+
+    \section{Cancer Radiology
+Optimization}\label{cancer-radiology-optimization}
+
+This Code Deals with Python Implimentation of the Paper
+\href{https://doi.org/10.1137/S0036144598342032}{\emph{Optimizing the
+Delivery of Radiation Therapy to Cancer Patients} by David M Sheperd et.
+al. 1999} and then solving the problem given below using the
+Optimization Technique described in the above paper.
+
+The Radiotherapy technique described in the above paper is also called
+as \textbf{\emph{Tomotherapy}}
+
+    Suppose we want to design an IMRT setup to obtain a dose corresponding
+to the following figure.
+
+\begin{figure}
+\centering
+\includegraphics{https://lh3.googleusercontent.com/pVkc8Or2Tj2ninBZCKhSbRMXABF4YZkXpUdC7gaBrtRSJRX-T8m47gbCuDX-CXcxqMaa7P4yxqU}
+\caption{Image}
+\end{figure}
+
+Assume that we want to achieve close to 10 units of radiation in the red
+region (denoting a tumor) and be as much below 4 units as possible in
+the remaining portion. You may assume the radiation intensity diminishes
+to half every 4 units (which means that this relation is not linear).
+Assuming that each beam is 1 unit wide, find a suitable configuration of
+beam weights and angles that can realize a plan as close as possible to
+the desired treatment. You may further assume that each beam is composed
+of 20 small beamlets each of whose intensities can be controlled
+separately. Solve one of the LPs or QPs proposed described by Shephard
+et al and find the optimal configuration. Describe the configuration in
+a readable manner. Also draw a pictorial representation of the intensity
+pattern achieved by your proposed solution. Comment on its quality.
+Clearly state all your assumptions and choices of parameters.
+
+    \subsubsection{Assumptions}\label{assumptions}
+
+\begin{itemize}
+\tightlist
+\item
+  All the beamlets are parallel
+\item
+  Intensity in the Risk region hard constrained below 4
+\item
+  1 unit distance is divided into \emph{grid\_res} piece
+\end{itemize}
+
+    \subsection{Control Parameters}\label{control-parameters}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{c+c1}{\PYZsh{}These parameters can be changed as required.}
+         
+         \PY{n}{radi}     \PY{o}{=}  \PY{l+m+mi}{3}  \PY{c+c1}{\PYZsh{}Radius of the circular organ region   }
+         \PY{n}{grid\PYZus{}sz}  \PY{o}{=}  \PY{l+m+mi}{6}  \PY{c+c1}{\PYZsh{} Length of the grid square area (grid size)}
+         \PY{n}{grid\PYZus{}res} \PY{o}{=} \PY{l+m+mi}{20}  \PY{c+c1}{\PYZsh{} 1 unit length to be devided in grid\PYZus{}res Number of pizels per length}
+         \PY{n}{beamlets} \PY{o}{=} \PY{l+m+mi}{20}  \PY{c+c1}{\PYZsh{} Number of beamlets per beam. All the beamlets in a beam have same angle}
+         \PY{n}{pos}      \PY{o}{=} \PY{l+m+mi}{50}  \PY{c+c1}{\PYZsh{} Total angular positions of the beam setups}
+\end{Verbatim}
+
+
+    \subsubsection{The Equation Formulation used is as per the below section
+of the original
+paper}\label{the-equation-formulation-used-is-as-per-the-below-section-of-the-original-paper}
+
+\begin{figure}
+\centering
+\includegraphics{https://lh3.googleusercontent.com/AgAYxUEkWx8GepAaODjgxY03sk7b8TdVTMcDcicAVFZ1AuAyPjeHp_cbyOoXz1hUJMA--xB-bVo}
+\caption{Optimization Equation Formulation}
+\end{figure}
+
+    \paragraph{Importing Dependencies}\label{importing-dependencies}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+         \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+         \PY{k+kn}{from} \PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{spatial} \PY{k}{import} \PY{n}{distance} \PY{k}{as} \PY{n}{dist}
+         \PY{k+kn}{from} \PY{n+nn}{math} \PY{k}{import} \PY{n}{exp}
+         \PY{k+kn}{from} \PY{n+nn}{amplpy} \PY{k}{import} \PY{n}{AMPL}
+\end{Verbatim}
+
+
+    \paragraph{\texorpdfstring{Artificial parameters to be used derived from
+the \textbf{\emph{user parameters}}
+above}{Artificial parameters to be used derived from the user parameters above}}\label{artificial-parameters-to-be-used-derived-from-the-user-parameters-above}
+
+Should Not be changed
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}16}]:} \PY{c+c1}{\PYZsh{}All length parameters will be multiplied with grid\PYZus{}res from hence forth}
+         \PY{n}{grid\PYZus{}sz} \PY{o}{*}\PY{o}{=} \PY{n}{grid\PYZus{}res}
+         \PY{n}{radi}    \PY{o}{*}\PY{o}{=} \PY{n}{grid\PYZus{}res}
+         \PY{n}{center}   \PY{o}{=} \PY{p}{(}\PY{n}{radi}\PY{p}{,} \PY{n}{radi}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{} Get all angular positions    }
+         \PY{n}{positions} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{360}\PY{p}{,} \PY{n}{num}\PY{o}{=}\PY{n}{pos}\PY{p}{,} \PY{n}{endpoint}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+
+
+    \subsubsection{Function for generating Dij\_p
+matrix}\label{function-for-generating-dij_p-matrix}
+
+Dij\_p matrix is generated for each beamlet at each position.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} \PY{k}{def} \PY{n+nf}{GET\PYZus{}Dijp}\PY{p}{(}\PY{n}{angle}\PY{p}{,} \PY{n}{beamlet\PYZus{}no}\PY{p}{)}\PY{p}{:}
+             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{    Beamlet Number starts at 0 to n\PYZhy{}1 for n beamlets}
+         \PY{l+s+sd}{    Returns a D\PYZus{}ij\PYZus{}p matrix}
+         \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+             \PY{k}{def} \PY{n+nf}{IN\PYZus{}COL}\PY{p}{(}\PY{n}{coordinates}\PY{p}{)}\PY{p}{:}
+                 \PY{n}{i} \PY{o}{=} \PY{n}{coordinates}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{;} \PY{n}{j} \PY{o}{=} \PY{n}{coordinates}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+                 \PY{n}{res} \PY{o}{=} \PY{n}{grid\PYZus{}res}
+                 \PY{k}{if} \PY{n}{i}\PY{o}{\PYZgt{}}\PY{o}{=}\PY{p}{(}\PY{l+m+mf}{2.5}\PY{o}{+}\PY{n}{beamlet\PYZus{}no}\PY{o}{/}\PY{l+m+mi}{20}\PY{p}{)}\PY{o}{*}\PY{n}{res} \PY{o+ow}{and} \PY{n}{i}\PY{o}{\PYZlt{}}\PY{o}{=}\PY{p}{(}\PY{l+m+mf}{2.55}\PY{o}{+}\PY{n}{beamlet\PYZus{}no}\PY{o}{/}\PY{l+m+mi}{20}\PY{p}{)}\PY{o}{*}\PY{n}{res}\PY{p}{:}
+                     \PY{k}{return}\PY{p}{(}\PY{n}{exp}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{o}{*}\PY{n}{j}\PY{o}{/}\PY{p}{(}\PY{l+m+mi}{4}\PY{o}{*}\PY{n}{grid\PYZus{}res}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                 \PY{k}{else}\PY{p}{:}
+                     \PY{k}{return} \PY{l+m+mi}{0}
+         
+             \PY{n}{col} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{n}{IN\PYZus{}COL}\PY{p}{(}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{)}\PY{p}{)} 
+                                 \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{grid\PYZus{}sz}\PY{p}{)}\PY{p}{]} \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{grid\PYZus{}sz}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+         
+             \PY{k+kn}{import} \PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{ndimage}\PY{n+nn}{.}\PY{n+nn}{interpolation} \PY{k}{as} \PY{n+nn}{inter}
+             \PY{n}{col} \PY{o}{=} \PY{n}{inter}\PY{o}{.}\PY{n}{rotate}\PY{p}{(}\PY{n}{col}\PY{p}{,} \PY{n}{angle}\PY{p}{,} \PY{n}{reshape} \PY{o}{=} \PY{k+kc}{False}\PY{p}{)}
+             \PY{k}{return} \PY{n}{col}
+         
+         \PY{k}{def} \PY{n+nf}{IN\PYZus{}TUMOR}\PY{p}{(}\PY{n}{coordinates}\PY{p}{)}\PY{p}{:}
+             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{    Uses 6x6 grid cordinates}
+         \PY{l+s+sd}{    Returns: 1 if the passed cordinate is in tumor}
+         \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+             \PY{n}{i} \PY{o}{=} \PY{n}{coordinates}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{;} \PY{n}{j} \PY{o}{=} \PY{n}{coordinates}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+             \PY{n}{res} \PY{o}{=} \PY{n}{grid\PYZus{}res}
+             \PY{k}{if} \PY{n}{i}\PY{o}{\PYZgt{}}\PY{o}{=}\PY{l+m+mf}{2.5}\PY{o}{*}\PY{n}{res} \PY{o+ow}{and} \PY{n}{i}\PY{o}{\PYZlt{}}\PY{o}{=}\PY{l+m+mf}{3.5}\PY{o}{*}\PY{n}{res} \PY{o+ow}{and} \PY{n}{j}\PY{o}{\PYZgt{}}\PY{o}{=}\PY{l+m+mi}{1}\PY{o}{*}\PY{n}{res} \PY{o+ow}{and} \PY{n}{j}\PY{o}{\PYZlt{}}\PY{o}{=}\PY{l+m+mi}{5}\PY{o}{*}\PY{n}{res}\PY{p}{:}
+                 \PY{k}{return} \PY{l+m+mi}{1}
+             \PY{k}{elif} \PY{p}{(}\PY{p}{(}\PY{p}{(}\PY{n}{i}\PY{o}{\PYZgt{}}\PY{o}{=}\PY{l+m+mf}{1.5}\PY{o}{*}\PY{n}{res} \PY{o+ow}{and} \PY{n}{i}\PY{o}{\PYZlt{}}\PY{o}{=}\PY{l+m+mf}{2.5}\PY{o}{*}\PY{n}{res}\PY{p}{)} \PY{o+ow}{or}\PY{p}{(}\PY{n}{i}\PY{o}{\PYZgt{}}\PY{o}{=}\PY{l+m+mf}{3.5}\PY{o}{*}\PY{n}{res} \PY{o+ow}{and} \PY{n}{i}\PY{o}{\PYZlt{}}\PY{o}{=}\PY{l+m+mf}{4.5}\PY{o}{*}\PY{n}{res}\PY{p}{)}\PY{p}{)} \PY{o+ow}{and} 
+                   \PY{p}{(}\PY{p}{(}\PY{n}{j}\PY{o}{\PYZgt{}}\PY{o}{=}\PY{l+m+mi}{1}\PY{o}{*}\PY{n}{res} \PY{o+ow}{and} \PY{n}{j}\PY{o}{\PYZlt{}}\PY{o}{=}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{res}\PY{p}{)} \PY{o+ow}{or} \PY{p}{(}\PY{n}{j}\PY{o}{\PYZgt{}}\PY{o}{=}\PY{l+m+mi}{4}\PY{o}{*}\PY{n}{res} \PY{o+ow}{and} \PY{n}{j}\PY{o}{\PYZlt{}}\PY{o}{=}\PY{l+m+mi}{5}\PY{o}{*}\PY{n}{res}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                 \PY{k}{return} \PY{l+m+mi}{1}
+             \PY{k}{else}\PY{p}{:}
+                 \PY{k}{return} \PY{l+m+mi}{0}
+\end{Verbatim}
+
+
+    \subsubsection{Map Risk zone and Tumor Zone in Matrix
+form}\label{map-risk-zone-and-tumor-zone-in-matrix-form}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} \PY{c+c1}{\PYZsh{}Calculating Tumor Map and Risk Map}
+         \PY{n}{map\PYZus{}risk} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{1} \PY{k}{if} \PY{n}{dist}\PY{o}{.}\PY{n}{euclidean}\PY{p}{(}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{)}\PY{p}{,} \PY{n}{center}\PY{p}{)}\PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{radi} \PY{k}{else} \PY{l+m+mi}{0}
+                                 \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{grid\PYZus{}sz}\PY{p}{)}\PY{p}{]} \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{grid\PYZus{}sz}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+         \PY{n}{map\PYZus{}tumor} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{n}{IN\PYZus{}TUMOR}\PY{p}{(}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{)}\PY{p}{)} 
+                                 \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{grid\PYZus{}sz}\PY{p}{)}\PY{p}{]} \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{grid\PYZus{}sz}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{map\PYZus{}tumor}\PY{p}{,} \PY{n}{origin}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lower}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{colorbar}\PY{p}{(}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Tumor Map}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+         \PY{n}{map\PYZus{}risk} \PY{o}{\PYZhy{}}\PY{o}{=} \PY{n}{map\PYZus{}tumor}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{map\PYZus{}risk}\PY{p}{,} \PY{n}{origin}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lower}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{colorbar}\PY{p}{(}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Risk Map}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}Calculating Dose matrix}
+         \PY{n}{dose\PYZus{}risk} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{4} \PY{k}{if} \PY{n}{dist}\PY{o}{.}\PY{n}{euclidean}\PY{p}{(}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{)}\PY{p}{,} \PY{n}{center}\PY{p}{)}\PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{radi} \PY{k}{else} \PY{l+m+mi}{0}
+                                 \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{grid\PYZus{}sz}\PY{p}{)}\PY{p}{]} \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{grid\PYZus{}sz}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+         \PY{n}{dose\PYZus{}tumor}\PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{10}\PY{o}{*}\PY{n}{IN\PYZus{}TUMOR}\PY{p}{(}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{)}\PY{p}{)} 
+                                 \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{grid\PYZus{}sz}\PY{p}{)}\PY{p}{]} \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{grid\PYZus{}sz}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{}}
+         \PY{n}{dose\PYZus{}tumor\PYZus{}temp}\PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{4}\PY{o}{*}\PY{n}{IN\PYZus{}TUMOR}\PY{p}{(}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{)}\PY{p}{)} 
+                                 \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{grid\PYZus{}sz}\PY{p}{)}\PY{p}{]} \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{grid\PYZus{}sz}\PY{p}{)}\PY{p}{]}\PY{p}{)}    
+         \PY{n}{dose\PYZus{}risk} \PY{o}{\PYZhy{}}\PY{o}{=} \PY{n}{dose\PYZus{}tumor\PYZus{}temp} \PY{c+c1}{\PYZsh{}Substract 4 value dosage from tumor area}
+         
+         \PY{c+c1}{\PYZsh{}Final Dose Requirements in One Matrix}
+         \PY{c+c1}{\PYZsh{}dose in risk region = 4; dose in tumor = 10}
+         \PY{n}{dose} \PY{o}{=} \PY{n}{dose\PYZus{}risk}\PY{o}{+}\PY{n}{dose\PYZus{}tumor}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{dose}\PY{p}{,} \PY{n}{origin}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lower}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{colorbar}\PY{p}{(}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max/min Dose Map}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}19}]:} \PY{c+c1}{\PYZsh{}4D D\PYZus{}ijp [beam\PYZus{}position, beamlet, X, Y]}
+         \PY{n}{D\PYZus{}ijp} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         \PY{k}{for} \PY{n}{beam\PYZus{}angle} \PY{o+ow}{in} \PY{n}{positions}\PY{p}{:}
+             \PY{n}{beam} \PY{o}{=} \PY{p}{[}\PY{n}{GET\PYZus{}Dijp}\PY{p}{(}\PY{n}{beam\PYZus{}angle}\PY{p}{,} \PY{n}{beamlet\PYZus{}no}\PY{p}{)} \PY{k}{for} \PY{n}{beamlet\PYZus{}no} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{beamlets}\PY{p}{)}\PY{p}{]}
+             \PY{n}{D\PYZus{}ijp}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{beam}\PY{p}{)}
+         \PY{n}{D\PYZus{}ijp} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{D\PYZus{}ijp}\PY{p}{)}
+\end{Verbatim}
+
+
+    \subsection{AMPL API Code}\label{ampl-api-code}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}20}]:} \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{Optimization Code}
+         \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{n}{theta} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}
+         \PY{n}{map\PYZus{}trn} \PY{o}{=} \PY{p}{[}\PY{n}{map\PYZus{}tumor}\PY{p}{,} \PY{n}{map\PYZus{}risk}\PY{p}{]}
+         \PY{n}{GRID\PYZus{}X} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{grid\PYZus{}sz}\PY{p}{)}\PY{p}{)}
+         \PY{n}{GRID\PYZus{}Y} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{grid\PYZus{}sz}\PY{p}{)}\PY{p}{)}
+         \PY{n}{BEAMLETS} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{beamlets}\PY{p}{)}\PY{p}{)}
+         \PY{n}{POS} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{pos}\PY{p}{)}\PY{p}{)}
+         \PY{n}{TRN} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{map\PYZus{}trn}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{ampl} \PY{o}{=} \PY{n}{AMPL}\PY{p}{(}\PY{p}{)}
+         \PY{n}{ampl}\PY{o}{.}\PY{n}{read}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{models}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model\PYZus{}linear\PYZus{}norm.mod}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+         \PY{n}{ampl}\PY{o}{.}\PY{n}{getSet}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GRID\PYZus{}X}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{setValues}\PY{p}{(}\PY{n}{GRID\PYZus{}X}\PY{p}{)}
+         \PY{n}{ampl}\PY{o}{.}\PY{n}{getSet}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GRID\PYZus{}Y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{setValues}\PY{p}{(}\PY{n}{GRID\PYZus{}Y}\PY{p}{)}
+         \PY{n}{ampl}\PY{o}{.}\PY{n}{getSet}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TRN}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{setValues}\PY{p}{(}\PY{n}{TRN}\PY{p}{)}
+         \PY{n}{ampl}\PY{o}{.}\PY{n}{getSet}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BEAMLETS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{setValues}\PY{p}{(}\PY{n}{BEAMLETS}\PY{p}{)}
+         \PY{n}{ampl}\PY{o}{.}\PY{n}{getSet}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{POS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{setValues}\PY{p}{(}\PY{n}{POS}\PY{p}{)}
+         
+         \PY{n}{ampl}\PY{o}{.}\PY{n}{param}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{theta}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{theta}
+         \PY{n}{ampl}\PY{o}{.}\PY{n}{param}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{D\PYZus{}ijp}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}
+                 \PY{p}{(}\PY{n}{POS}\PY{p}{[}\PY{n}{p}\PY{p}{]}\PY{p}{,} \PY{n}{BEAMLETS}\PY{p}{[}\PY{n}{b}\PY{p}{]}\PY{p}{,} \PY{n}{GRID\PYZus{}X}\PY{p}{[}\PY{n}{x}\PY{p}{]}\PY{p}{,} \PY{n}{GRID\PYZus{}Y}\PY{p}{[}\PY{n}{y}\PY{p}{]}\PY{p}{)}\PY{p}{:}\PY{n}{D\PYZus{}ijp}\PY{p}{[}\PY{n}{p}\PY{p}{]}\PY{p}{[}\PY{n}{b}\PY{p}{]}\PY{p}{[}\PY{n}{x}\PY{p}{]}\PY{p}{[}\PY{n}{y}\PY{p}{]}
+                 \PY{k}{for} \PY{n}{p} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{POS}\PY{p}{)}\PY{p}{)}
+                 \PY{k}{for} \PY{n}{b} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{BEAMLETS}\PY{p}{)}\PY{p}{)}
+                 \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{GRID\PYZus{}X}\PY{p}{)}\PY{p}{)}
+                 \PY{k}{for} \PY{n}{y} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{GRID\PYZus{}Y}\PY{p}{)}\PY{p}{)}
+                 \PY{p}{\PYZcb{}}
+         
+         \PY{n}{ampl}\PY{o}{.}\PY{n}{param}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d\PYZus{}ij}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}
+                 \PY{p}{(}\PY{n}{GRID\PYZus{}X}\PY{p}{[}\PY{n}{x}\PY{p}{]}\PY{p}{,} \PY{n}{GRID\PYZus{}Y}\PY{p}{[}\PY{n}{y}\PY{p}{]}\PY{p}{)}\PY{p}{:}\PY{n}{dose}\PY{p}{[}\PY{n}{x}\PY{p}{]}\PY{p}{[}\PY{n}{y}\PY{p}{]}
+                 \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{GRID\PYZus{}X}\PY{p}{)}\PY{p}{)}
+                 \PY{k}{for} \PY{n}{y} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{GRID\PYZus{}Y}\PY{p}{)}\PY{p}{)}
+                 \PY{p}{\PYZcb{}}
+         
+         \PY{n}{ampl}\PY{o}{.}\PY{n}{param}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MAP\PYZus{}TRN}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}
+                 \PY{p}{(}\PY{n}{TRN}\PY{p}{[}\PY{n}{trn}\PY{p}{]}\PY{p}{,} \PY{n}{GRID\PYZus{}X}\PY{p}{[}\PY{n}{x}\PY{p}{]}\PY{p}{,} \PY{n}{GRID\PYZus{}Y}\PY{p}{[}\PY{n}{y}\PY{p}{]}\PY{p}{)}\PY{p}{:}\PY{n}{map\PYZus{}trn}\PY{p}{[}\PY{n}{trn}\PY{p}{]}\PY{p}{[}\PY{n}{x}\PY{p}{]}\PY{p}{[}\PY{n}{y}\PY{p}{]}
+                 \PY{k}{for} \PY{n}{trn} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{TRN}\PY{p}{)}\PY{p}{)}
+                 \PY{k}{for} \PY{n}{x}   \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{GRID\PYZus{}X}\PY{p}{)}\PY{p}{)}
+                 \PY{k}{for} \PY{n}{y}   \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{GRID\PYZus{}Y}\PY{p}{)}\PY{p}{)}
+                 \PY{p}{\PYZcb{}}
+         
+         \PY{n}{ampl}\PY{o}{.}\PY{n}{param}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MAP\PYZus{}RISK}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}
+                 \PY{p}{(}\PY{n}{GRID\PYZus{}X}\PY{p}{[}\PY{n}{x}\PY{p}{]}\PY{p}{,} \PY{n}{GRID\PYZus{}Y}\PY{p}{[}\PY{n}{y}\PY{p}{]}\PY{p}{)}\PY{p}{:}\PY{n}{map\PYZus{}trn}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{n}{x}\PY{p}{]}\PY{p}{[}\PY{n}{y}\PY{p}{]}
+                 \PY{k}{for} \PY{n}{x}   \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{GRID\PYZus{}X}\PY{p}{)}\PY{p}{)}
+                 \PY{k}{for} \PY{n}{y}   \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{GRID\PYZus{}Y}\PY{p}{)}\PY{p}{)}
+                 \PY{p}{\PYZcb{}}
+         
+         \PY{n}{ampl}\PY{o}{.}\PY{n}{option}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{solver}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gurobi}\PY{l+s+s1}{\PYZsq{}}
+         \PY{n}{ampl}\PY{o}{.}\PY{n}{solve}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Error: con5 is already defined
+Gurobi 7.5.0: optimal solution; objective 11856.48588
+3248 simplex iterations
+
+    \end{Verbatim}
+
+    \subsection{Solution Starts Here}\label{solution-starts-here}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}21}]:} \PY{c+c1}{\PYZsh{}Print the w values with their index}
+         \PY{c+c1}{\PYZsh{}print(ampl.var[\PYZsq{}w\PYZsq{}].getValues().toPandas())}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}22}]:} \PY{c+c1}{\PYZsh{}Extrcting w values from the solution}
+         \PY{n}{w\PYZus{}values} \PY{o}{=} \PY{n}{ampl}\PY{o}{.}\PY{n}{var}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{w}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{getValues}\PY{p}{(}\PY{p}{)}
+         \PY{n}{w\PYZus{}values} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{w\PYZus{}values}\PY{o}{.}\PY{n}{getColumn}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{w.val}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+         \PY{n}{w\PYZus{}values} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{w\PYZus{}values}\PY{p}{)}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{pos}\PY{p}{,} \PY{n}{beamlets}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}print(w\PYZus{}values)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}23}]:} \PY{c+c1}{\PYZsh{}Shape of the transformed weight matrix.}
+         \PY{n}{w\PYZus{}values}\PY{o}{.}\PY{n}{shape}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}23}]:} (50, 20)
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}24}]:} \PY{n}{final\PYZus{}map} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{grid\PYZus{}sz}\PY{p}{,} \PY{n}{grid\PYZus{}sz}\PY{p}{)}\PY{p}{)}
+         \PY{k}{for} \PY{n}{p} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{pos}\PY{p}{)}\PY{p}{:}
+             \PY{k}{for} \PY{n}{b} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{beamlets}\PY{p}{)}\PY{p}{:}
+                 \PY{n}{final\PYZus{}map} \PY{o}{+}\PY{o}{=} \PY{n}{w\PYZus{}values}\PY{p}{[}\PY{n}{p}\PY{p}{]}\PY{p}{[}\PY{n}{b}\PY{p}{]}\PY{o}{*}\PY{n}{D\PYZus{}ijp}\PY{p}{[}\PY{n}{p}\PY{p}{]}\PY{p}{[}\PY{n}{b}\PY{p}{]}
+         
+         \PY{n}{img} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{final\PYZus{}map}\PY{p}{,} \PY{n}{origin}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lower}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{colorbar}\PY{p}{(}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Solution with Optimal Beam Weights for }\PY{l+s+si}{\PYZob{}pos\PYZcb{}}\PY{l+s+s1}{ beams}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_22_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
