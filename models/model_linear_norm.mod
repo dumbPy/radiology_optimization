@@ -42,4 +42,4 @@ subject to con4{i in GRID_X, j in GRID_Y}: MAP_RISK[i, j]*(d_ij[i, j]-D_ij[i, j]
 #error at each pixel is actual dose - max/min dose (10 or 4 for tumor and risk resp.)
 #Linearised norm of error
 subject to con5{i in GRID_X, j in GRID_Y}: error[i, j] >= d_ij[i, j]-D_ij[i, j];
-subject to con5{i in GRID_X, j in GRID_Y}: error[i, j] >= D_ij[i, j]-d_ij[i, j];
+subject to con6{i in GRID_X, j in GRID_Y}: error[i, j] >= D_ij[i, j]-d_ij[i, j];
